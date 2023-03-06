@@ -1,0 +1,18 @@
+---
+layout: "base"
+---
+
+<h2>No spice.</h2>
+<h2 class="spice-it-up">Spice is nice!</h2>
+<hello-world></hello-world>
+
+<style>
+.spice-it-up {
+  padding: var(--space-s);
+  color: red;
+
+  &::after {
+    content: "🌶️"
+  }
+}
+</style>

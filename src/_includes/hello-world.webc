@@ -1,0 +1,32 @@
+<p>"Hello" from the <em>hello-world</em> component! <span>👋</span></p>
+
+<script>
+  console.log("Hello, world!");
+</script>
+
+<style webc:scoped>
+  :host {
+    display: inline-block;
+    background: papayawhip;
+    padding: 0.5rem 1rem;
+  }
+
+  :host p {
+    margin: 0;
+  }
+
+  :host span {
+    display: inline-block;
+    transform-origin: bottom right;
+    animation: wobble 200ms linear alternate infinite;
+  }
+
+  @keyframes wobble {
+    from {
+      transform: rotate(-5deg);
+    }
+    to {
+      transform: rotate(5deg);
+    }
+  }
+</style>
