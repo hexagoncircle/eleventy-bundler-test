@@ -1,7 +1,9 @@
 const pluginWebc = require("@11ty/eleventy-plugin-webc");
 const pluginBundle = require("@11ty/eleventy-plugin-bundle");
-const postcss = require("postcss");
-const postcssNested = require("postcss-nested");
+const { transform } = require("lightningcss");
+const { Buffer } = require("node:buffer");
+const { browserslistToTargets } = require("lightningcss");
+const browserslist = require("browserslist");
 
 module.exports = (eleventyConfig) => {
   eleventyConfig.addPlugin(pluginWebc, {
@@ -11,11 +13,18 @@ module.exports = (eleventyConfig) => {
   eleventyConfig.addPlugin(pluginBundle, {
     transforms: [
       async function (content) {
-        let result = await postcss([postcssNested]).process(content, {
-          from: this.page.inputPath,
-          to: null,
-        });
-        return result.css;
+        if (this.type === "css") {
+          let { code } = transform({
+            targets: browserslistToTargets(browserslist("> 0.2% and not dead")),
+            drafts: {
+              nesting: true,
+              customMedia: true,
+            },
+            code: Buffer.from(content),
+          });
+          return code;
+        }
+        return content;
       },
     ],
   });
